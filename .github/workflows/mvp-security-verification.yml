@@ -4,17 +4,20 @@ on:
   push:
     branches:
       - implementation/mvp-edgeone-exact-baseline
+  pull_request:
+    branches:
+      - review/mvp-edgeone-baseline
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: mvp-security-${{ github.ref }}
+  group: mvp-security-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  profile-pnpm-env:
+  pnpm-security:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -29,7 +32,11 @@ jobs:
         with:
           node-version: 22.23.2
 
+      - name: Enforce patched pnpm line
+        run: node --test scripts/mvp-pnpm-security.test.mjs
+
       - run: corepack enable
       - run: yarn install --immutable
+
       - name: Run Profile pnpm environment security regression
         run: yarn workspace dsh-plugin-desktop test tests/profile-materializer.spec.ts
