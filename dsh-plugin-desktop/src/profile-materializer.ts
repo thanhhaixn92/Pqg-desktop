@@ -172,7 +172,6 @@ export async function materializeProfile(
   ] as const
   const path = inheritedPath()
   const environment: NodeJS.ProcessEnv = {
-    ...process.env,
     PATH: path.length === 0 ? options.nodeBinDir : `${options.nodeBinDir}${delimiter}${path}`,
     NODE: options.nodeShimPath,
     ELECTRON_RUN_AS_NODE: '1',
