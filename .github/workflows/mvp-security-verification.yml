@@ -1,0 +1,35 @@
+name: MVP Security Verification
+
+on:
+  push:
+    branches:
+      - implementation/mvp-edgeone-exact-baseline
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mvp-security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  profile-pnpm-env:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact-baseline staging branch
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          submodules: recursive
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.23.2
+
+      - run: corepack enable
+      - run: yarn install --immutable
+      - name: Run Profile pnpm environment security regression
+        run: yarn workspace dsh-plugin-desktop test tests/profile-materializer.spec.ts
