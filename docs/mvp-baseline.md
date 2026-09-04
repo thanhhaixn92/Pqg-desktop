@@ -38,6 +38,20 @@ MVP giữ nguyên và tái sử dụng DSH Web UI, agent core, API/RPC/WebSocket
 - multi-user shared-instance SaaS;
 - database mới chỉ để phục vụ migration.
 
+## Security hardening evidence
+
+### Profile pnpm environment
+
+- RED run `33831405621`: `yarn install --immutable` thành công; 5/6 materializer tests pass; sentinel test fail vì `DSH_MVP_SENTINEL_SECRET` bị forward vào child pnpm environment.
+- Production patch `f40b1fe853331aeb3bc5089c211e36712e0167d7` bỏ inherited `...process.env` khỏi Profile pnpm materialization và giữ explicit runtime allowlist.
+
+### Packaged pnpm
+
+- RED PR run `33831612299`: invariant fail đúng tại pnpm `11.8.0`, yêu cầu `>=11.11.0` và `<12`.
+- GREEN one-shot run `33831713858`: Yarn tự regenerate lockfile; version invariant pass; Profile secret-isolation test pass; generated diff được giới hạn đúng hai manifest và `yarn.lock`.
+- Dependency commit `ebddf31532ddc44d016ee72898abe3f5844f30f3`: stable + beta pin pnpm `11.25.0`, lockfile checksum/resolution được Yarn tạo lại.
+- Workflow one-shot có `contents: write` đã bị xóa ngay sau khi hoàn thành; workflow verification thường trực chỉ dùng `contents: read`.
+
 ## Target repository contract
 
 Target cuối theo Master Plan là `thanhhaixn92/dsh-webapp-edgeone`, giữ full Git history và attribution, với mô hình remote mong muốn:
