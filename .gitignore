@@ -14,3 +14,18 @@ dsh-plugin-desktop/lib/
 dsh-community-market/lib/
 
 .env.yarn
+
+# MVP WebApp secrets. Keep only the documented empty template in Git.
+.env
+.env.*
+!.env.example
+
+# DSH/runtime state must live on persistent volumes, never in source control.
+.dsh/
+.dsh-*/
+.mvp-runtime/
+.local-volumes/
+
+# Generated startup/bootstrap material may contain bearer tokens.
+*.bootstrap-url
+*.startup-url
