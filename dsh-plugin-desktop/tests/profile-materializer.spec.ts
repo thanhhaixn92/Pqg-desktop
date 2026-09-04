@@ -91,6 +91,31 @@ describe('profile materializer', () => {
     expect(result.exitCode).toBe(0)
   })
 
+  it('does not forward unrelated parent secrets into pnpm materialization', async () => {
+    const child = fakeChild()
+    let spawnOptions: SpawnOptions | undefined
+    const sentinelKey = 'DSH_MVP_SENTINEL_SECRET'
+    const previousSentinel = process.env[sentinelKey]
+    process.env[sentinelKey] = 'must-not-reach-pnpm'
+    const spawn = vi.fn((_command: string, _args: readonly string[], selectedOptions: SpawnOptions) => {
+      spawnOptions = selectedOptions
+      return child as unknown as ChildProcess
+    }) as unknown as ProfileMaterializerSpawn
+
+    try {
+      const resultPromise = materializeProfile(options(spawn))
+      child.stdout.end('installed\n')
+      child.stderr.end('')
+      child.emit('close', 0, null)
+      await resultPromise
+
+      expect(spawnOptions?.env).not.toHaveProperty(sentinelKey)
+    } finally {
+      if (previousSentinel === undefined) delete process.env[sentinelKey]
+      else process.env[sentinelKey] = previousSentinel
+    }
+  })
+
   it('allows a controlled lockfile update while migrating an old Profile layout', async () => {
     const child = fakeChild()
     let args: readonly string[] = []
