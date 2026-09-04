@@ -8998,7 +8998,7 @@ __metadata:
     koffi: "npm:3.1.5"
     lucide-react: "npm:^1.33.0"
     node-addon-require-builtin: "npm:^0.1.4"
-    pnpm: "npm:11.8.0"
+    pnpm: "npm:11.25.0"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     selfsigned: "npm:5.5.0"
@@ -9183,7 +9183,7 @@ __metadata:
     koffi: "npm:3.1.5"
     lucide-react: "npm:^1.33.0"
     node-addon-require-builtin: "npm:^0.1.4"
-    pnpm: "npm:11.8.0"
+    pnpm: "npm:11.25.0"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     selfsigned: "npm:5.5.0"
@@ -12729,9 +12729,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pnpm@npm:11.8.0":
-  version: 11.8.0
-  resolution: "pnpm@npm:11.8.0"
+"pnpm@npm:11.25.0":
+  version: 11.25.0
+  resolution: "pnpm@npm:11.25.0"
   dependencies:
     node-gyp: "npm:latest"
   bin:
@@ -12739,7 +12739,7 @@ __metadata:
     pnpm: bin/pnpm.mjs
     pnpx: bin/pnpx.mjs
     pnx: bin/pnpx.mjs
-  checksum: 10c0/a24262bc503a6007a1948c2182377b30d22e8e192cb2b85e8dd7e2bbac0e87ed1426f454a73ed95943f36177d54938a02d5d6cbbadf01f58467c8c2d06d1a35d
+  checksum: 10c0/68328a4d70d8f529e48474078d3b53d465298e14e82590af0a76ec544c311a6af4ed2850b54405e334e8dc99f93864713407d6012c112ceb9d4bca9520e31bde
   languageName: node
   linkType: hard
 
